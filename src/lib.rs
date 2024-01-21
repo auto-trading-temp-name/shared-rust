@@ -1,3 +1,2 @@
-fn boowomp() {
-	println!("Hello, world!");
-}
+mod coin;
+mod interval;
