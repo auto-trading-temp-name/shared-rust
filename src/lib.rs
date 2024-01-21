@@ -1,3 +1,3 @@
 fn boowomp() {
-    println!("Hello, world!");
+	println!("Hello, world!");
 }
