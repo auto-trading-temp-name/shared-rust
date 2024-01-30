@@ -1,6 +1,6 @@
 use std::fs;
 
-use ethers::{prelude::*, utils::parse_units};
+use ethers::{abi::Address, prelude::*, utils::parse_units};
 use eyre::Result;
 use serde::Deserialize;
 
@@ -38,6 +38,15 @@ impl Coin {
 				.await?
 				.as_u32(),
 		)
+	}
+
+	pub fn empty() -> Self {
+		Self {
+			name: String::from(""),
+			fallback_name: String::from(""),
+			address: Address::zero(),
+			decimals: 0,
+		}
 	}
 }
 
