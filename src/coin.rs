@@ -2,13 +2,13 @@ use std::fs;
 
 use ethers::{abi::Address, prelude::*, utils::parse_units};
 use eyre::Result;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::abis::Quoter;
 
 const COINS_PATH: &str = "coins.json";
 
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Coin {
 	pub name: String,
 	pub fallback_name: String,
