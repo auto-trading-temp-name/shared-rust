@@ -1,7 +1,7 @@
 use std::fs;
 
 use ethers::{abi::Address, prelude::*, utils::parse_units};
-use eyre::Result;
+use eyre::{Context, Result};
 use serde::{Deserialize, Serialize};
 
 use crate::abis::Quoter;
@@ -30,7 +30,7 @@ impl Coin {
 					500,
 					U256::from(
 						parse_units(1.0, self.decimals)
-							.expect(format!("1 {} did not parse correctly", reference_coin.name).as_str()),
+							.wrap_err(format!("1 {} did not parse correctly", reference_coin.name))?,
 					),
 					U256::zero(),
 				)
