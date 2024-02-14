@@ -9,6 +9,9 @@ use crate::abis::Quoter;
 const COINS_PATH: &str = "coins.json";
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct Pair(pub Coin, pub Coin);
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Coin {
 	pub name: String,
 	pub fallback_name: String,
