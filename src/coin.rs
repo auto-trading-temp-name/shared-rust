@@ -1,15 +1,21 @@
-use std::fs;
-
-use ethers::{abi::Address, prelude::*, utils::parse_units};
+use ethers::{
+	abi::{AbiDecode, Address},
+	prelude::*,
+	utils::parse_units,
+};
 use eyre::{Context, Result};
 use serde::{Deserialize, Serialize};
 
 use crate::abis::Quoter;
 
-const COINS_PATH: &str = "coins.json";
-
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Pair(pub Coin, pub Coin);
+
+impl Pair {
+	pub fn usdc_weth() -> Self {
+		Self(Coin::usdc(), Coin::weth())
+	}
+}
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Coin {
@@ -17,6 +23,12 @@ pub struct Coin {
 	pub fallback_name: String,
 	pub address: Address,
 	pub decimals: i32,
+}
+
+impl Default for Coin {
+	fn default() -> Self {
+		Self::empty()
+	}
 }
 
 impl Coin {
@@ -43,6 +55,14 @@ impl Coin {
 		)
 	}
 
+	pub fn get_coin(name: &str) -> Option<Self> {
+		match name {
+			"USDC" => Some(Self::usdc()),
+			"WETH" => Some(Self::weth()),
+			_ => None,
+		}
+	}
+
 	pub fn empty() -> Self {
 		Self {
 			name: String::from(""),
@@ -51,11 +71,24 @@ impl Coin {
 			decimals: 0,
 		}
 	}
-}
 
-pub fn load_coins() -> (Coin, Vec<Coin>) {
-	let coin_data: Vec<Coin> =
-		serde_json::from_str(&fs::read_to_string(COINS_PATH).expect("{COINS_PATH} does not exist"))
-			.expect("{COINS_PATH} is not valid");
-	(coin_data[0].clone(), coin_data[1..].to_vec())
+	pub fn usdc() -> Self {
+		Self {
+			name: String::from("USDC"),
+			fallback_name: String::from(""),
+			address: Address::decode_hex("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48")
+				.expect("USDC address should parse into Address"),
+			decimals: 6,
+		}
+	}
+
+	pub fn weth() -> Self {
+		Self {
+			name: String::from("WETH"),
+			fallback_name: String::from("ETH/USD"),
+			address: Address::decode_hex("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2")
+				.expect("WETH address should parse into Address"),
+			decimals: 18,
+		}
+	}
 }
