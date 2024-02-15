@@ -1,8 +1,4 @@
-use ethers::{
-	abi::{AbiDecode, Address},
-	prelude::*,
-	utils::parse_units,
-};
+use ethers::{prelude::*, types::Address, utils::parse_units};
 use eyre::{Context, Result};
 use serde::{Deserialize, Serialize};
 
@@ -76,7 +72,8 @@ impl Coin {
 		Self {
 			name: String::from("USDC"),
 			fallback_name: String::from(""),
-			address: Address::decode_hex("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48")
+			address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+				.parse()
 				.expect("USDC address should parse into Address"),
 			decimals: 6,
 		}
@@ -86,8 +83,9 @@ impl Coin {
 		Self {
 			name: String::from("WETH"),
 			fallback_name: String::from("ETH/USD"),
-			address: Address::decode_hex("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2")
-				.expect("WETH address should parse into Address"),
+			address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+				.parse()
+				.expect("USDC address should parse into Address"),
 			decimals: 18,
 		}
 	}
