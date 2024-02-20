@@ -36,7 +36,7 @@ impl Pair {
 pub struct Coin {
 	pub name: String,
 	pub address: Address,
-	pub decimals: i32,
+	pub decimals: u32,
 }
 
 impl Default for Coin {
