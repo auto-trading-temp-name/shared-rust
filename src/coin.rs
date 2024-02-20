@@ -6,6 +6,12 @@ const DEFAULT_CHAIN: u16 = 0x1;
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Pair(pub Coin, pub Coin, pub Option<String>);
 
+impl ToString for Pair {
+	fn to_string(&self) -> String {
+		format!("{}-{}", self.0.name, self.1.name)
+	}
+}
+
 impl Default for Pair {
 	fn default() -> Self {
 		Self::empty()
