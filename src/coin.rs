@@ -1,7 +1,7 @@
 use ethers::types::Address;
 use serde::{Deserialize, Serialize};
 
-const DEFAULT_CHAIN: u16 = 0x1;
+const DEFAULT_CHAIN: u64 = 0x1;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Pair(pub Coin, pub Coin, pub Option<String>);
@@ -23,7 +23,7 @@ impl Pair {
 		Self(Coin::empty(), Coin::empty(), None)
 	}
 
-	pub fn usdc_weth(chain: Option<u16>) -> Self {
+	pub fn usdc_weth(chain: Option<u64>) -> Self {
 		Self(
 			Coin::usdc(chain),
 			Coin::weth(chain),
@@ -46,7 +46,7 @@ impl Default for Coin {
 }
 
 impl Coin {
-	pub fn get_coin(name: &str, chain: Option<u16>) -> Option<Self> {
+	pub fn get_coin(name: &str, chain: Option<u64>) -> Option<Self> {
 		match name {
 			"USDC" => Some(Self::usdc(chain)),
 			"WETH" => Some(Self::weth(chain)),
@@ -62,7 +62,7 @@ impl Coin {
 		}
 	}
 
-	pub fn usdc(chain: Option<u16>) -> Self {
+	pub fn usdc(chain: Option<u64>) -> Self {
 		let chain = match chain {
 			Some(chain) => chain,
 			None => DEFAULT_CHAIN,
@@ -82,7 +82,7 @@ impl Coin {
 		}
 	}
 
-	pub fn weth(chain: Option<u16>) -> Self {
+	pub fn weth(chain: Option<u64>) -> Self {
 		let chain = match chain {
 			Some(chain) => chain,
 			None => DEFAULT_CHAIN,
