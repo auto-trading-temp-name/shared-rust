@@ -1,8 +1,5 @@
-use ethers::{prelude::*, types::Address, utils::parse_units};
-use eyre::{Context, Result};
+use ethers::types::Address;
 use serde::{Deserialize, Serialize};
-
-use crate::abis::Quoter;
 
 const DEFAULT_CHAIN: u16 = 0x1;
 
