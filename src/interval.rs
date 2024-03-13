@@ -1,24 +1,20 @@
-use chrono::Duration;
+use chrono::TimeDelta;
 use clokwerk::Interval;
+use eyre::Result;
+use std::time::Duration;
 
 pub struct CustomInterval(pub Duration);
 
 impl CustomInterval {
 	pub fn interval(&self) -> Interval {
-		Interval::Seconds(
-			self
-				.0
-				.num_seconds()
-				.try_into()
-				.expect("interval should be positive"),
-		)
+		Interval::Seconds(self.0.as_secs() as u32)
 	}
 
-	pub fn duration(&self) -> Duration {
+	pub fn duration(&self) -> Result<chrono::TimeDelta> {
+		Ok(TimeDelta::from_std(self.0)?)
+	}
+
+	pub fn std_duration(&self) -> Duration {
 		self.0
-	}
-
-	pub fn std_duration(&self) -> std::time::Duration {
-		self.0.to_std().expect("interval should be positive")
 	}
 }
