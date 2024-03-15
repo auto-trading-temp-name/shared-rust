@@ -19,6 +19,16 @@ impl Default for Pair {
 }
 
 impl Pair {
+	pub fn get_pair(name: &str, chain: Option<u64>) -> Option<Self> {
+		let name = name.to_lowercase();
+		let name = name.as_str();
+
+		match name {
+			"usdc-weth" => Some(Self::usdc_weth(chain)),
+			_ => None,
+		}
+	}
+
 	pub fn empty() -> Self {
 		Self(Coin::empty(), Coin::empty(), None)
 	}
@@ -47,9 +57,12 @@ impl Default for Coin {
 
 impl Coin {
 	pub fn get_coin(name: &str, chain: Option<u64>) -> Option<Self> {
+		let name = name.to_lowercase();
+		let name = name.as_str();
+
 		match name {
-			"USDC" => Some(Self::usdc(chain)),
-			"WETH" => Some(Self::weth(chain)),
+			"usdc" => Some(Self::usdc(chain)),
+			"weth" => Some(Self::weth(chain)),
 			_ => None,
 		}
 	}
